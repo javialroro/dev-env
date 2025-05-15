@@ -1,0 +1,5 @@
+{"type": "foo" , "values": [1,2,3,4,5]}
+{"type": "foo" , "values": [12,20,30,40,50]}
+{"type": "bar", "values": {"a": 12, "b": 45}}
+{"type": "bar", "values": {"a": 1224, "b": 455}}
+{"type": "bar", "values": {"a": 14, "b": 4}}

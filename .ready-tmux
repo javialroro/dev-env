@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-tmux neww -n foofoo
+tmux neww -n nvim 'nvim'
+tmux neww -n scratch
+

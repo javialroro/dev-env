@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
-tmux neww -n nvim 'nvim'
-tmux neww -n scratch
+SESSION_NAME="javi"
+
+tmux has-session -t $SESSION_NAME 2>/dev/null
+
+if [ $? != 0 ]; then
+    tmux new-session -d -s $SESSION_NAME -n nvim 'nvim .'
+    tmux new-window -t $SESSION_NAME -n scratch
+fi
+
+if [ -z "$TMUX" ]; then
+    # No estás dentro de tmux, te conectas normalmente
+    tmux attach -t $SESSION_NAME
+else
+    # Ya estás dentro, solo cambia a la sesión (no crees ventanas nuevas)
+    tmux switch-client -t $SESSION_NAME
+fi
 

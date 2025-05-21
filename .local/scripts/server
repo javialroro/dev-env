@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+accion=$1
+archivo=$2
+carpeta=$3
+
+if [[ -z "$accion" || -z "$archivo" || -z "$carpeta" ]]; then
+	echo "ingrese todos los parametros"
+	exit 1
+fi
+
+RUTA_LOCAL="/home/javialroro/TEC/2025 I/Compi"
+RUTA_REMOTA="/home/wrk/2022199282/compi/$carpeta"
+
+
+if [[ $accion == "--enviar" ]]; then
+	if [[ ! -f "$RUTA_LOCAL/$archivo" ]]; then
+		echo "El archivo $RUTA_LOCAL/$archivo no existe"
+		exit 1
+	fi
+	scp -J serveo.net "$RUTA_LOCAL/$archivo" javier2022199282@profe_aurelio:"$RUTA_REMOTA"
+elif [[ $accion == "--descargar" ]]; then
+	scp -J serveo.net javier2022199282@profe_aurelio:"$RUTA_REMOTA/$archivo" "$RUTA_LOCAL"
+else
+	echo "Accion desconocida"
+	exit 1
+fi
+

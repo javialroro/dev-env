@@ -5,7 +5,7 @@ archivo=$2
 carpeta=$3
 
 if [[ -z "$accion" || -z "$archivo" || -z "$carpeta" ]]; then
-	echo "ingrese todos los parametros"
+	echo "Ingrese todos los parametros"
 	exit 1
 fi
 

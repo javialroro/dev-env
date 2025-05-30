@@ -2,7 +2,7 @@
 
 echo "hello from neovim"
 
-git clone -b v0.10.1 https://github.com/neovim/neovim.git $HOME/personal/neovim
+git clone -b v0.11.1 https://github.com/neovim/neovim.git $HOME/personal/neovim
 
 sudo apt install cmake gettext lua5.1 liblua5.1-0-dev
 

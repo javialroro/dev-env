@@ -42,6 +42,7 @@ return {
           "rust_analyzer",
           "ts_ls",
           "gopls",
+	  "pyright"
         },
         handlers = {
           function(server_name) -- handler por defecto
@@ -89,4 +90,3 @@ return {
     end,
   },
 }
-

@@ -20,8 +20,8 @@ if tmux has-session -t="$selected_name" 2>/dev/null; then
     exit 0
 fi
 
-# Crear sesión con ventana nvim en el directorio seleccionado
-tmux new-session -d -s "$selected_name" -n nvim "nvim $selected"
+# Crear sesión con ventana yazi en el directorio seleccionado
+tmux new-session -d -s "$selected_name" -n yazi  -c "$selected" 'yazi'
 
 # Crear ventana scratch vacía
 tmux new-window -t "$selected_name" -n scratch -c "$selected"

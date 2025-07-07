@@ -2,18 +2,23 @@
 
 SESSION_NAME="javi"
 
+# Verifica si la sesión existe
 tmux has-session -t $SESSION_NAME 2>/dev/null
 
 if [ $? != 0 ]; then
     tmux new-session -d -s $SESSION_NAME -n yazi 'yazi'
     tmux new-window -t $SESSION_NAME -n scratch
+    tmux new-window -t $SESSION_NAME -n opencode 'opencode .'
+    tmux select-window -t $SESSION_NAME:yazi
 fi
 
 if [ -z "$TMUX" ]; then
-    # No estás dentro de tmux, te conectas normalmente
-    tmux attach -t $SESSION_NAME
+    # Si no estás en tmux, atachate directamente en la ventana "yazi"
+    tmux attach-session -t $SESSION_NAME -c "$(tmux display-message -p -t $SESSION_NAME:yazi '#{pane_current_path}')"
+    tmux select-window -t $SESSION_NAME:yazi
 else
-    # Ya estás dentro, solo cambia a la sesión (no crees ventanas nuevas)
+    # Ya estás en tmux, entonces solo cambia de sesión y selecciona ventana
     tmux switch-client -t $SESSION_NAME
+    tmux select-window -t $SESSION_NAME:yazi
 fi
 

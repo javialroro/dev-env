@@ -53,7 +53,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # Ejecutar ready-tmux solo si no estás dentro de tmux y la shell es interactiva
 if [[ -z "$TMUX" && $- == *i* ]]; then
+    echo "Ejecutando ready-tmux..."
     ready-tmux
+else
 fi
 
 

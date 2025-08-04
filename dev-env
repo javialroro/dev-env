@@ -1,59 +1,72 @@
-#! /usr/bin/env bash
-script_dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+#!/usr/bin/env bash
+
+# Determina el directorio del script actual
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 dry="0"
 
-while [[ $# > 0 ]] do
-	if [[ $1 == "--dry" ]]; then
-		dry="1"
-	fi
+# Parseo de argumentos
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		--dry)
+			dry="1"
+			;;
+	esac
 	shift
 done
 
+# Función para imprimir logs, diferenciando entre ejecución real y modo dry
 log() {
-	if  [[ $dry == "1" ]]; then
-		echo "[DRY_RUN] : $@"
+	if [[ "$dry" == "1" ]]; then
+		echo "[DRY_RUN]: $*"
 	else
-		echo "$@"
+		echo "$*"
 	fi
-
 }
 
+# Función para ejecutar comandos solo si no está en modo dry
 execute() {
-	log "execute $@"
+	log "execute $*"
 
-	if  [[ $dry == "1" ]]; then
+	if [[ "$dry" == "1" ]]; then
 		return
 	fi
+
 	"$@"
 }
 
 log "------------------ dev-env ------------------"
 
+# Copia directorios desde $1 hacia $2, eliminando los que ya existan
 copy_dir() {
-	from=$1
-	to=$2
+	local from="$1"
+	local to="$2"
 
-	pushd $from > /dev/null
+	pushd "$from" > /dev/null || exit 1
+	local dirs
 	dirs=$(find . -mindepth 1 -maxdepth 1 -type d)
+
 	for dir in $dirs; do
-		execute rm -rf $to/$dir
-		execute cp -r $dir $to/$dir
+		execute rm -rf "$to/$dir"
+		execute cp -r "$dir" "$to/$dir"
 	done
-	popd > /dev/null
-} 
 
-
-copy_file() {
-	from=$1
-	to=$2
-	name=$(basename $from)
-
-	execute rm $to/$name
-	execute cp -r $from $to/$name
-
+	popd > /dev/null || exit 1
 }
 
-copy_dir .config $XDG_CONFIG_HOME
-copy_dir .local $HOME/.local
-copy_file .ready-tmux $HOME
-copy_file .zshrc $HOME
+# Copia un archivo desde $1 hacia $2, reemplazándolo si ya existe
+copy_file() {
+	local from="$1"
+	local to="$2"
+	local name
+	name=$(basename "$from")
+
+	execute rm -f "$to/$name"
+	execute cp "$from" "$to/$name"
+}
+
+# Ejecuta las copias
+copy_dir "$script_dir/.config" "${XDG_CONFIG_HOME:-$HOME/.config}"
+copy_dir "$script_dir/.local" "$HOME/.local"
+copy_file "$script_dir/.ready-tmux" "$HOME"
+copy_file "$script_dir/.zshrc" "$HOME"
+

@@ -8,7 +8,7 @@ tmux has-session -t $SESSION_NAME 2>/dev/null
 if [ $? != 0 ]; then
     tmux new-session -d -s $SESSION_NAME -n yazi 'yazi'
     tmux new-window -t $SESSION_NAME -n scratch
-    tmux new-window -t $SESSION_NAME -n opencode 'opencode .'
+    tmux new-window -t $SESSION_NAME -n opencode '/home/javialroro/.opencode/bin/opencode .'
     tmux select-window -t $SESSION_NAME:yazi
 fi
 

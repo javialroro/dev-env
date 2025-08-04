@@ -7,12 +7,11 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf)
-
 alias vim='nvim'
 source $ZSH/oh-my-zsh.sh
 
@@ -46,8 +45,11 @@ addToPath() {
 # Adding to PATH
 
 addToPath $HOME/.local/scripts
+addToPath $HOME/ghostty/zig-out/bin
+source $HOME/.cargo/env
 
-
+#Starship
+eval "$(starship init zsh)"
 # Setting xdg config home
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -73,3 +75,7 @@ zle -N run_tmux_sessionizer
 
 bindkey -s ^f "tmux-sessionizer\n"
 
+
+# opencode
+export PATH=/home/javialroro/.opencode/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
